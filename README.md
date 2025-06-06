@@ -4,8 +4,9 @@
 
 Nama | NRP
 --- | ---
-Amoes Noland | 5027231028
-Rafi' Afnaan Fathurrahman | 5027231040
+Nira | 50272410
+Dina Rahmadani | 5027241065
+Hanif | 50272410
 
 ## Daftar Isi
 
