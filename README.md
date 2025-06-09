@@ -4,7 +4,7 @@
 
 Nama | NRP
 --- | ---
-Nira | 50272410
+Nisrina Bilqis | 5027241054
 Dina Rahmadani | 5027241065
 Hanif Mawla Faizi | 5027241064
 
@@ -34,58 +34,59 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
    I have the Echo
    ```
 
-  Jawab :
-  1. Fungsi `readString` :
-  
-  Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
-  ```c
-  void readString(char *buf)
-  {
-    int i = 0;
-    char c = 0;
-    while (1) {
-      c = interrupt(0x16, 0x0000, 0, 0, 0); // Layanan BIOS: Keyboard input
-      if (c == '\r') { // Enter key
-        buf[i] = '\0'; // Akhirkan string saat Enter ditekan
-        printString("\r\n"); // Pindah baris
-        break;
-      } else if (c == '\b') { // Backspace
-        if (i > 0) {
-          i--; // Hapus karakter sebelumnya
-          printString("\b \b"); // Tampilkan backspace
+    Jawab :
+
+     1.Fungsi `readString` :
+    
+    Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
+      ```c
+      void readString(char *buf)
+      {
+        int i = 0;
+        char c = 0;
+        while (1) {
+          c = interrupt(0x16, 0x0000, 0, 0, 0); // Layanan BIOS: Keyboard input
+          if (c == '\r') { // Enter key
+            buf[i] = '\0'; // Akhirkan string saat Enter ditekan
+            printString("\r\n"); // Pindah baris
+            break;
+          } else if (c == '\b') { // Backspace
+            if (i > 0) {
+              i--; // Hapus karakter sebelumnya
+              printString("\b \b"); // Tampilkan backspace
+            }
+          } else {
+            buf[i++] = c;
+            printString(str); // Menampilkan karakter yang dimasukkan
+          }
         }
-      } else {
-        buf[i++] = c;
-        printString(str); // Menampilkan karakter yang dimasukkan
       }
-    }
-  }
-  ```
-  Penjelasan:
-  - Fungsi ini membaca satu karakter per satu dari input keyboard.
-  - Input akan disimpan dalam buffer dan ditampilkan pada layar.
-  - Setelah Enter ditekan, input diselesaikan dengan karakter null (`'\0'`), menandakan akhir dari input.
-
-
-  2. Fungsi `printString` :
-
-  Fungsi ini digunakan untuk menampilkan string yang diberikan.
-  ```c
-  void printString(char *str)
-  {
-    while (*str != '\0') {
-      interrupt(0x10, 0x0E00 + *str, 0, 0, 0); // Menampilkan karakter dengan BIOS
-      str++;
-    }
-  }
-  
-  ```
-  Penjelasan:
-  - Fungsi ini menampilkan string ke layar menggunakan interrupt BIOS.
-  - Setiap karakter dari string akan ditampilkan satu per satu.
----
-
-2. gurt: yo
+      ```
+      Penjelasan:
+      - Fungsi ini membaca satu karakter per satu dari input keyboard.
+      - Input akan disimpan dalam buffer dan ditampilkan pada layar.
+      - Setelah Enter ditekan, input diselesaikan dengan karakter null (`'\0'`), menandakan akhir dari input.
+    
+    
+     2.Fungsi `printString` :
+    
+      Fungsi ini digunakan untuk menampilkan string yang diberikan.
+      ```c
+      void printString(char *str)
+      {
+        while (*str != '\0') {
+          interrupt(0x10, 0x0E00 + *str, 0, 0, 0); // Menampilkan karakter dengan BIOS
+          str++;
+        }
+      }
+      
+      ```
+      Penjelasan:
+      - Fungsi ini menampilkan string ke layar menggunakan interrupt BIOS.
+      - Setiap karakter dari string akan ditampilkan satu per satu.
+    ---
+    
+3. gurt: yo
 
    Ilustrasi:
    ```
@@ -96,9 +97,11 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
    ```
 
   Jawab :
-  1. Fungsi `shell`:
+  
+  Fungsi `shell`:
   
   Fungsi ini menangani input dari pengguna dan memprosesnya.
+  
   ```c
   void shell() {
     char buf[128], cmd[64], arg[2][64], username[64], company[64];
@@ -122,29 +125,28 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
       }
     }
   }
-  
   ```
   Penjelasan:
-  - Di dalam fungsi shell, input pengguna dibaca dengan readString(buf).
-  - Setelah itu, perintah yang dimasukkan akan diproses dengan fungsi parseCommand.
-  - Program memeriksa apakah perintah yang dimasukkan adalah "yo" atau "gurt".
-    - Jika perintah "yo" dimasukkan, sistem akan mencetak "gurt".
-    - Jika perintah "gurt" dimasukkan, sistem akan mencetak "yo".
-  - Jika perintah bukan "yo" atau "gurt", input yang tidak valid akan langsung ditampilkan kembali.
-
-  ```c
-  if (strcmp(cmd, "yo") == 0) {
-    printString("gurt\r\n");
-  } else if (strcmp(cmd, "gurt") == 0) {
-    printString("yo\r\n");
-  }
+   - Di dalam fungsi shell, input pengguna dibaca dengan readString(buf).
+   - Setelah itu, perintah yang dimasukkan akan diproses dengan fungsi parseCommand.
+   - Program memeriksa apakah perintah yang dimasukkan adalah "yo" atau "gurt".
+     - Jika perintah "yo" dimasukkan, sistem akan mencetak "gurt".
+     - Jika perintah "gurt" dimasukkan, sistem akan mencetak "yo".
+   - Jika perintah bukan "yo" atau "gurt", input yang tidak valid akan langsung ditampilkan kembali.
   
-  ```
-Contoh Output:
-- Pengguna mengetik "yo", maka sistem akan menampilkan "gurt".
-- Pengguna mengetik "gurt", maka sistem akan menampilkan "yo".
-
----
+    ```c
+    if (strcmp(cmd, "yo") == 0) {
+      printString("gurt\r\n");
+    } else if (strcmp(cmd, "gurt") == 0) {
+      printString("yo\r\n");
+    }
+    
+    ```
+  Contoh Output:
+  - Pengguna mengetik "yo", maka sistem akan menampilkan "gurt".
+  - Pengguna mengetik "gurt", maka sistem akan menampilkan "yo".
+  
+  ---
 
 3. Seorang main character memerlukan sebuah nama yang semua orang bisa ingat dengan baik. Buatlah sebuah command yang memungkinkan pengguna untuk mengubah nama user pada shell yang digunakan:
    * `user <username>` = mengubah username menjadi `<username>`
@@ -158,6 +160,35 @@ Contoh Output:
    Username changed to user
    user>
    ```
+
+   Jawab :
+
+   Fungsi `shell`:
+
+   Fungsi ini menangani perintah user untuk mengubah username shell.
+    ```c
+    } else if(strcmp(cmd,"user")){
+      if (arg[0][0] != '\0') {
+        strcpy(username, arg[0]);
+        printString("Username changed to: ");
+        printString(username);
+        printString("\r\n");
+      } else {
+        strcpy(username, "user");
+        printString("Username changed to: user\r\n");
+      }
+    ```
+    Penjelasan:
+    -	Saat pengguna mengetik user <nama>, fungsi parseCommand akan menempatkan <nama> ke arg[0].
+    -	Jika arg[0] tidak kosong, maka nama username akan diubah dengan strcpy(username, arg[0]);.
+    -	Jika perintah hanya user tanpa argumen, maka nama username akan dikembalikan ke default, yaitu "user".
+    -	Nama pengguna akan tampil di shell prompt melalui fungsi info.
+    
+    Contoh Output:
+    -	Pengguna mengetik user Tia → prompt menjadi Tia>.
+    -	Pengguna mengetik user → prompt kembali menjadi user>.
+
+---
 
 4. Tiga negara besar dari Eorzean Alliance butuh bantuan anda untuk ikut serta dalam "Grand Company" mereka sehingga anda bisa mengubah warna terminal ajaib anda sesuai warna utama dari company mereka:
    * `grandcompany maelstrom` = clear terminal, ubah semua teks berikutnya jadi merah
@@ -180,6 +211,62 @@ Contoh Output:
    -- terminal clear menjadi warna putih --
    ```
 
+   Jawab :
+
+     1.Fungsi `shell`:
+
+   Fungsi ini menangani perintah grandcompany untuk bergabung dengan Grand Company tertentu dan mengubah prompt shell.
+    ```c
+    } else if(strcmp(cmd,"grandcompany")){
+      if(strcmp(arg[0],"maelstrom")){
+        strcpy(company, "@Storm");
+        clearScreen();
+      } else if(strcmp(arg[0],"immortalflames")){
+        strcpy(company, "@Flames");
+        clearScreen();
+      } else if(strcmp(arg[0],"twinadder")){
+        strcpy(company, "@Serpent");
+        clearScreen();
+      } else {
+        printString("Unknown Grand Company\r\n");
+      }
+    ```
+    Penjelasan:
+    
+    - Pengguna dapat mengetik grandcompany <nama> untuk bergabung.
+    - Jika nama adalah:
+      - maelstrom → company = "@Storm", terminal di-clear.
+      - immortalflames → company = "@Flames", terminal di-clear.
+      - twinadder → company = "@Serpent", terminal di-clear.
+    - Jika nama tidak dikenali atau kosong → pesan error "Unknown Grand Company" muncul.
+    - Nama company ditampilkan di shell prompt melalui fungsi info.
+      
+     2.Fungsi `clear`:
+    ```c   
+    } else if(strcmp(cmd,"clear")){
+      strcpy(username,"user");
+      strcpy(company,"");
+      clearScreen();
+    ```
+    Penjelasan:
+    - Saat pengguna mengetik clear, shell akan:
+      - Mengembalikan username ke "user".
+      - Menghapus nama Grand Company.
+      - Membersihkan layar terminal.
+   
+     3.Fungsi `info`:
+    ```c
+    void info(char *username, char *company) {
+      printString(username);
+      printString(company);
+      printString("> ");
+    }
+    ```
+    Penjelasan:
+    - Fungsi ini mencetak prompt shell seperti: username@GrandCompany>.
+    - Misal: Tia@Storm>, user@Flames>, Alma@Serpent>, dsb.
+    
+---
 5. Sebagai pahlawan terkenal di antara ketiga negara besar Eorzean Alliance, salah satu supplier senjata terbesar di seluruh Eorzea bernama "Rowena's House of Splendors" tiba-tiba memerlukan bantuan anda untuk membuat sebuah sistem kalkulator sederhana melalui command karena pemimpin mereka tertidur setelah mengurus semua orang di dalam Eorzea:
    * `add <x> <y>` = x + y
    * `sub <x> <y>` = x - y
@@ -198,6 +285,52 @@ Contoh Output:
    3
    ```
 
+   Jawab :
+
+   Fungsi `shell`:
+
+   Fungsi ini menangani perintah kalkulasi dari pengguna seperti add, sub, mul, dan div.
+
+    ```c
+    } else if(strcmp(cmd,"add")) {
+      int num1, num2,result;
+      char resultStr[64];
+      if (arg[0][0] != '\0' && arg[1][0] != '\0') {
+        atoi(arg[0], &num1);
+        atoi(arg[1], &num2);
+        result = num1 + num2;
+        
+        itoa(result, resultStr);       
+        printString(resultStr);
+        printString("\r\n");
+      } else {
+        printString("Usage: add <num1> <num2>\r\n");
+      }
+    }
+    ```
+    
+      Penjelasan:
+      - Jika pengguna mengetik add <num1> <num2>, maka:
+      - Fungsi atoi() mengubah argumen string ke integer.
+      - Operasi penjumlahan dilakukan dan hasilnya disimpan ke result.
+      - Hasil dikonversi kembali ke string dengan itoa() lalu ditampilkan.
+      - Fungsionalitas yang sama diterapkan pada sub, mul, dan div, hanya berbeda operator matematikanya.
+      - Untuk div, ada tambahan pengecekan untuk mencegah pembagian dengan nol:
+    ```c
+    if (num2 == 0) {
+      printString("Error: Division by zero\r\n");
+    }
+    ```
+    Contoh Output:
+    
+    ```pgsql
+    user> add 4 2
+    6
+    user> div 5 0
+    Error: Division by zero
+    ```
+    
+---    
 6. me: yogurt
    
    gurt:
@@ -217,7 +350,44 @@ Contoh Output:
    gurt> sygau
    ```
 
-8. Perusahaan mesin "Garlond Ironworks" tiba-tiba lelah mengurus permintaan senjata perang untuk orang ke-148649813234 yang berusaha menghadapi final boss yang sama, sehingga mereka perlu bantuan kamu untuk melengkapi `Makefile` yang diberikan dengan command-command yang sesuai untuk compile seluruh operating system ini.
+   Jawab :
+
+   Fungsi `shell`:
+
+   Fungsi ini menangani perintah yogurt yang memberikan output acak dari tiga pilihan yang disiapkan.
+
+    ```c
+    } else if(strcmp(cmd,"yogurt")) {
+      char response[3][100];
+      int randomIndex;
+      strcpy(response[0], "yo");
+      strcpy(response[1], "ts unami gng </3");
+      strcpy(response[2], "sygau");
+      randomIndex = mod(getBiosTick(), 3); 
+      printString(response[randomIndex]);
+      printString("\r\n");
+    }
+    ```
+      Penjelasan:
+      - Perintah yogurt akan memilih salah satu dari tiga string secara acak:
+        - "yo"
+        - "ts unami gng </3"
+        - "sygau"
+      - Pemilihan acak untuk mengambil nilai dari getBiosTick() dan dihitung mod 3, agar hanya mendapat nilai 0, 1, atau 2 menggunakan: 
+    ```c
+    randomIndex = mod(getBiosTick(), 3);
+    ```
+    
+    Contoh Output:
+    
+    ```shell
+    user> yogurt
+    gurt> yo
+    user> yogurt
+    gurt> sygau
+    ```
+---
+7. Perusahaan mesin "Garlond Ironworks" tiba-tiba lelah mengurus permintaan senjata perang untuk orang ke-148649813234 yang berusaha menghadapi final boss yang sama, sehingga mereka perlu bantuan kamu untuk melengkapi `Makefile` yang diberikan dengan command-command yang sesuai untuk compile seluruh operating system ini.
 
 ## Petunjuk Soal
 
@@ -281,5 +451,4 @@ https://github.com/user-attachments/assets/1cfa66b1-b2f5-4e3e-a4b2-ec8b012f6fbb
 
 
 ## Laporan
-
-> Isi sesuai pengerjaan.
+(-)
