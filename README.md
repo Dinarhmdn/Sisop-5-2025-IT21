@@ -35,8 +35,9 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
    ```
 
   Jawab :
-  1. Fungsi `readString`:
-     Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
+  1. Fungsi `readString` :
+  
+  Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
   ```c
   void readString(char *buf)
   {
@@ -66,17 +67,19 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
   - Setelah Enter ditekan, input diselesaikan dengan karakter null (`'\0'`), menandakan akhir dari input.
 
 
-  2. Fungsi `printString`:
-  3. Fungsi ini digunakan untuk menampilkan string yang diberikan.
-     ```c
+  2. Fungsi `printString` :
+
+  Fungsi ini digunakan untuk menampilkan string yang diberikan.
+  ```c
   void printString(char *str)
-    {
-      while (*str != '\0') {
-        interrupt(0x10, 0x0E00 + *str, 0, 0, 0); // Menampilkan karakter dengan BIOS
-        str++;
-      }
+  {
+    while (*str != '\0') {
+      interrupt(0x10, 0x0E00 + *str, 0, 0, 0); // Menampilkan karakter dengan BIOS
+      str++;
     }
-    ```
+  }
+  
+  ```
   Penjelasan:
   - Fungsi ini menampilkan string ke layar menggunakan interrupt BIOS.
   - Setiap karakter dari string akan ditampilkan satu per satu.
