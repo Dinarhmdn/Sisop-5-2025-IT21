@@ -83,6 +83,7 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
   Penjelasan:
   - Fungsi ini menampilkan string ke layar menggunakan interrupt BIOS.
   - Setiap karakter dari string akan ditampilkan satu per satu.
+---
 
 2. gurt: yo
 
@@ -93,6 +94,57 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
    user> gurt
    yo
    ```
+
+  Jawab :
+  1. Fungsi `shell`:
+  
+  Fungsi ini menangani input dari pengguna dan memprosesnya.
+  ```c
+  void shell() {
+    char buf[128], cmd[64], arg[2][64], username[64], company[64];
+    strcpy(username, "user");
+    strcpy(company, "");
+  
+    printString("Welcome to EorzeOS!\r\n");
+    while (true) {
+      info(username, company);
+      readString(buf); // Membaca input
+      parseCommand(buf, cmd, arg); // Memparse perintah dan argumen
+  
+      // Mengecek perintah "yo" dan "gurt"
+      if (strcmp(cmd, "yo") == 0) {
+        printString("gurt\r\n");
+      } else if (strcmp(cmd, "gurt") == 0) {
+        printString("yo\r\n");
+      } else {
+        printString(buf); // Mengulang input yang tidak dikenali
+        printString("\r\n");
+      }
+    }
+  }
+  
+  ```
+  Penjelasan:
+  - Di dalam fungsi shell, input pengguna dibaca dengan readString(buf).
+  - Setelah itu, perintah yang dimasukkan akan diproses dengan fungsi parseCommand.
+  - Program memeriksa apakah perintah yang dimasukkan adalah "yo" atau "gurt".
+    - Jika perintah "yo" dimasukkan, sistem akan mencetak "gurt".
+    - Jika perintah "gurt" dimasukkan, sistem akan mencetak "yo".
+  - Jika perintah bukan "yo" atau "gurt", input yang tidak valid akan langsung ditampilkan kembali.
+
+  ```c
+  if (strcmp(cmd, "yo") == 0) {
+    printString("gurt\r\n");
+  } else if (strcmp(cmd, "gurt") == 0) {
+    printString("yo\r\n");
+  }
+  
+  ```
+Contoh Output:
+- Pengguna mengetik "yo", maka sistem akan menampilkan "gurt".
+- Pengguna mengetik "gurt", maka sistem akan menampilkan "yo".
+
+---
 
 3. Seorang main character memerlukan sebuah nama yang semua orang bisa ingat dengan baik. Buatlah sebuah command yang memungkinkan pengguna untuk mengubah nama user pada shell yang digunakan:
    * `user <username>` = mengubah username menjadi `<username>`
