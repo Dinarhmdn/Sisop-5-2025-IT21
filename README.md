@@ -6,7 +6,7 @@ Nama | NRP
 --- | ---
 Nira | 50272410
 Dina Rahmadani | 5027241065
-Hanif | 50272410
+Hanif Mawla Faizi | 5027241064
 
 ## Daftar Isi
 
@@ -33,6 +33,18 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
    user> I have the Echo
    I have the Echo
    ```
+
+  Jawab :
+  Fungsi readString:
+  - Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
+  - Input yang diterima kemudian disimpan dalam buffer untuk diproses lebih lanjut.
+  - Setelah input dibaca, program akan memanggil printString untuk menampilkan input tersebut di layar.
+
+
+c
+Salin
+Edit
+
 
 2. gurt: yo
 
