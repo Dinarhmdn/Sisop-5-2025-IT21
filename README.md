@@ -35,16 +35,51 @@ Pada suatu hari, anda merasa sangat lelah dari segala macam praktikum yang sudah
    ```
 
   Jawab :
-  Fungsi readString:
-  - Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
-  - Input yang diterima kemudian disimpan dalam buffer untuk diproses lebih lanjut.
-  - Setelah input dibaca, program akan memanggil printString untuk menampilkan input tersebut di layar.
+  1. Fungsi `readString`:
+  Fungsi ini digunakan untuk membaca input dari pengguna melalui keyboard.
+  ```c
+  void readString(char *buf)
+  {
+    int i = 0;
+    char c = 0;
+    while (1) {
+      c = interrupt(0x16, 0x0000, 0, 0, 0); // Layanan BIOS: Keyboard input
+      if (c == '\r') { // Enter key
+        buf[i] = '\0'; // Akhirkan string saat Enter ditekan
+        printString("\r\n"); // Pindah baris
+        break;
+      } else if (c == '\b') { // Backspace
+        if (i > 0) {
+          i--; // Hapus karakter sebelumnya
+          printString("\b \b"); // Tampilkan backspace
+        }
+      } else {
+        buf[i++] = c;
+        printString(str); // Menampilkan karakter yang dimasukkan
+      }
+    }
+  }
+  ```
+  Penjelasan:
+  - Fungsi ini membaca satu karakter per satu dari input keyboard.
+  - Input akan disimpan dalam buffer dan ditampilkan pada layar.
+  - Setelah Enter ditekan, input diselesaikan dengan karakter null (`'\0'`), menandakan akhir dari input.
 
 
-c
-Salin
-Edit
-
+  2. Fungsi `printString`:
+  Fungsi ini digunakan untuk menampilkan string yang diberikan.
+    ```c
+    void printString(char *str)
+    {
+      while (*str != '\0') {
+        interrupt(0x10, 0x0E00 + *str, 0, 0, 0); // Menampilkan karakter dengan BIOS
+        str++;
+      }
+    }
+    ```
+  Penjelasan:
+  - Fungsi ini menampilkan string ke layar menggunakan interrupt BIOS.
+  - Setiap karakter dari string akan ditampilkan satu per satu.
 
 2. gurt: yo
 
